@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = env("DATABASE_PROVIDER")
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  STAFF
+  PARENT
+}
+
+enum AttendanceStatus {
+  PRESENT
+  LATE
+}
+
+model User {
+  id              String       @id @default(cuid())
+  name            String
+  role            Role
+  imageDescriptor String? // String keeps compatibility with SQLite deployments without native JSON features.
+  phone           String?
+  classId         String?
+  divisionId      String?
+  class           Class?       @relation(fields: [classId], references: [id], onDelete: SetNull)
+  division        Division?    @relation(fields: [divisionId], references: [id], onDelete: SetNull)
+  attendances     Attendance[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@index([role])
+}
+
+model Class {
+  id    String @id @default(cuid())
+  name  String @unique
+  users User[]
+}
+
+model Division {
+  id    String @id @default(cuid())
+  name  String @unique
+  users User[]
+}
+
+model Attendance {
+  id          String           @id @default(cuid())
+  userId      String
+  timestamp   DateTime         @default(now())
+  status      AttendanceStatus
+  snapshotUrl String?
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([timestamp])
+  @@index([userId])
+}

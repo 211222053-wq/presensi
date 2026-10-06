@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(22, 78, 99, 0.35), transparent 45%),
+    radial-gradient(circle at 80% 20%, rgba(14, 116, 144, 0.25), transparent 35%),
+    #020617;
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(34, 211, 238, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(34, 211, 238, 0.08) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.scanner-line {
+  animation: scanner-line 2.4s linear infinite;
+}
+
+@keyframes scanner-line {
+  0% {
+    transform: translateY(0%);
+  }
+  50% {
+    transform: translateY(95%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+.pulse-dot {
+  animation: pulse-dot 1.2s ease-out infinite;
+}
+
+@keyframes pulse-dot {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
